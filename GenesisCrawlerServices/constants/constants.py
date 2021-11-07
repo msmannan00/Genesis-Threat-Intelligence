@@ -1,5 +1,5 @@
 # Pref Manager Keys
-S_PROJECT_PATH = "C:\\Workspace\\Backup\\Genesis-Crawler"
+S_PROJECT_PATH = "C:\\Workspace\\Genesis-Threat-Intelligence"
 S_CLASSIFIER_FOLDER_PATH = "\\GenesisCrawlerServices\\raw\\classifier_pickled_files"
 S_DATASET_PATH = "\\GenesisCrawlerServices\\raw\\crawled_classifier_websites.csv"
 

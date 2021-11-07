@@ -5,7 +5,7 @@ S_DOC_TYPES = [".pdf", ".msword", ".document", ".docx", "doc"]
 # ------- Local Paths --------- #
 
 # OS Directory
-S_PROJECT_PATH = "C:\\Workspace\\Genesis Website Classifier"
+S_PROJECT_PATH = "C:\\Workspace\\Genesis-Threat-Intelligence"
 S_DATASET_PATH = "\\GenesisCrawlerServices\\raw\\crawled_classifier_websites.csv"
 
 # Local Directory

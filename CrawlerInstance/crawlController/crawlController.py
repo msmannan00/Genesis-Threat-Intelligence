@@ -89,14 +89,14 @@ class crawlController(requestHandler):
         m_crawler_instance.invoke_trigger(ICRAWL_CONTROLLER_COMMANDS.S_START_CRAWLER_INSTANCE, [p_url_model])
 
     def __on_save_url(self, p_base_url_model):
-        if p_base_url_model.m_sub_url is not None:
-            for m_url in p_base_url_model.m_sub_url:
+        if p_base_url_model.get_sub_url() is not None:
+            for m_url in p_base_url_model.get_sub_url():
                 self.__m_crawl_model.invoke_trigger(CRAWL_MODEL_COMMANDS.S_INSERT_URL, [m_url, p_base_url_model])
 
     # Try To Get Job For Crawler Instance
     def __crawler_instance_job_fetcher(self, p_index_model):
         self.__on_save_url(p_index_model)
-        m_status, m_url_model = self.__m_crawl_model.invoke_trigger(CRAWL_MODEL_COMMANDS.S_GET_SUB_URL, [p_index_model.m_url])
+        m_status, m_url_model = self.__m_crawl_model.invoke_trigger(CRAWL_MODEL_COMMANDS.S_GET_SUB_URL, [p_index_model.get_url()])
 
         if m_status:
             return m_status, m_url_model

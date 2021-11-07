@@ -30,10 +30,10 @@ class iCrawlController(requestHandler):
 
     def __trigger_url_request(self, p_request_model):
         # Initialize
-        m_redirected_url, response, html = self.__m_web_request_handler.load_url(p_request_model.getURL())
+        m_redirected_url, response, html = self.__m_web_request_handler.load_url(p_request_model.get_url())
 
         # Normalize Slashes
-        m_redirected_requested_url = helperMethod.normalize_slashes(p_request_model.getURL())
+        m_redirected_requested_url = helperMethod.normalize_slashes(p_request_model.get_url())
         m_redirected_url = helperMethod.normalize_slashes(m_redirected_url)
 
         # Parse HTML
@@ -44,10 +44,10 @@ class iCrawlController(requestHandler):
             if m_redirected_url == m_redirected_requested_url or m_redirected_url != m_redirected_requested_url and self.__m_duplication_handler.validate_duplicate_url(m_redirected_url) is False:
                 self.__m_duplication_handler.insert_url(m_redirected_url)
 
-                if m_parsed_model.m_validity_score == 1:
+                if m_parsed_model.get_validity_score() == 1:
                     mongo_controller.get_instance().invoke_trigger(MONGODB_COMMANDS.S_SAVE_PARSE_URL,m_parsed_model)
         else:
-            m_parsed_model = indexModel(p_url=p_request_model.getURL())
+            m_parsed_model = indexModel(p_url=p_request_model.get_url())
 
         return m_parsed_model
 

@@ -43,7 +43,7 @@ class crawlModel(requestHandler):
 
         if new_url_host == parent_host:
             try:
-                depth = p_base_url_model.m_redirected_url.m_depth + 1
+                depth = p_base_url_model.m_redirected_url.__m_depth + 1
             except Exception as e:
                 log.g().e(str(e))
         else:
@@ -59,7 +59,7 @@ class crawlModel(requestHandler):
         m_url_host = helperMethod.get_host_url(p_url)
         if m_url_host not in self.__m_url_queue.keys():
             if len(self.__m_url_queue) < constants.S_MAX_HOST_QUEUE_SIZE:
-                m_fresh_url_model = queueURLModel(p_url, m_url_depth, p_base_url_model.m_content_type)
+                m_fresh_url_model = queueURLModel(p_url, m_url_depth, p_base_url_model.__m_content_type)
                 if self.__m_duplication_handler.validate_duplicate_url(m_url_host) is False:
                     self.__m_duplication_handler.insert_url(m_url_host)
                     self.__m_url_queue[m_url_host] = [m_fresh_url_model]
@@ -69,7 +69,7 @@ class crawlModel(requestHandler):
                 applicationStatus.S_QUEUE_BACKUP_STATUS = True
         else:
             if "?" not in p_url:
-                self.__m_url_queue[m_url_host].insert(0, queueURLModel(p_url, m_url_depth, p_base_url_model.m_content_type))
+                self.__m_url_queue[m_url_host].insert(0, queueURLModel(p_url, m_url_depth, p_base_url_model.__m_content_type))
 
     def __save_backup_url_to_drive(self, p_url, p_url_depth, p_category = None):
         if self.__m_duplication_handler.validate_duplicate_url(p_url) is False:

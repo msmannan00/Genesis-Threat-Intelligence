@@ -48,32 +48,32 @@ class mongo_controller(RequestHandler):
     def __set_backup_url(self, p_data):
         try:
             m_collection = self.__m_connection[MONGODB_COLLECTIONS.S_BACKUP_MODEL.value]
-            myquery = {'m_host': {'$eq': p_data.m_host},
-                       'm_catagory': {'$eq': p_data.m_catagory},
-                       'm_url_data': {'$not': {'$elemMatch': {'m_sub_host': p_data.m_url_data[0].m_sub_host}}}}
+            myquery = {'m_host': {'$eq': p_data.__m_host},
+                       'm_catagory': {'$eq': p_data.get_category()},
+                       'm_url_data': {'$not': {'$elemMatch': {'m_sub_host': p_data.__m_url_data[0].__m_sub_host}}}}
             newvalues = {"$set": {'m_parsing': False},
-                         "$addToSet": {'m_url_data': json.loads(urlObjectEncoder().encode(p_data.m_url_data[0]))}}
+                         "$addToSet": {'m_url_data': json.loads(urlObjectEncoder().encode(p_data.__m_url_data[0]))}}
             m_collection.update_one(myquery, newvalues, upsert=True)
-            log.g().i(strings.S_BACKUP_PARSED + " : " + p_data.m_host + p_data.m_url_data[0].m_sub_host)
+            log.g().i(strings.S_BACKUP_PARSED + " : " + p_data.__m_host + p_data.__m_url_data[0].__m_sub_host)
         except Exception :
             pass
 
     def __set_parse_url(self, p_data):
         m_collection = self.__m_connection[MONGODB_COLLECTIONS.S_INDEX_MODEL.value]
-        myquery = {'m_url': {'$eq': p_data.m_url}}
-        newvalues = {"$set": {'m_title': p_data.m_title,
-                              'm_description': p_data.m_description,
+        myquery = {'m_url': {'$eq': p_data.get_url()}}
+        newvalues = {"$set": {'m_title': p_data.get_title(),
+                              'm_description': p_data.get_description(),
 
                               }}
         m_collection.update_one(myquery, newvalues, upsert=True)
 
-        log.g().i(strings.S_URL_PARSED + " : " + p_data.m_url)
+        log.g().i(strings.S_URL_PARSED + " : " + p_data.get_url())
 
     def __get_backup_url(self, p_data):
         m_collection = self.__m_connection[MONGODB_COLLECTIONS.S_BACKUP_MODEL.value]
         m_document_list = []
         m_document_list_id = []
-        if p_data.m_catagory == "default":
+        if p_data.get_category() == "default":
             m_collection_result = m_collection.find({'m_parsing': {'$eq': False}}).limit(constants.S_BACKUP_FETCH_LIMIT)
         else:
             m_collection_result = m_collection.find({'m_parsing': {'$eq': False}}).limit(constants.S_BACKUP_FETCH_LIMIT)
