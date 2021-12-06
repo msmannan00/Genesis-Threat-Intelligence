@@ -20,12 +20,12 @@ class CRAWL_MODEL_COMMANDS(enum.Enum):
     S_GET_SUB_URL = 4
     S_CRAWL_FINISHED_STATUS = 5
 
-class CLASSIFIER(enum.Enum):
+class CLASSIFIER:
     S_CLASSIFIER_LABEL = "CLASSIFIER"
     S_CLASSIFIER_URL= "URL"
-    S_CLASSIFIER_NEWS = "News"
-    S_CLASSIFIER_BUSINESS = "Business"
-    S_CLASSIFIER_ADULT = "Adult"
+    S_CLASSIFIER_NEWS = "news"
+    S_CLASSIFIER_BUSINESS = "business"
+    S_CLASSIFIER_ADULT = "adult"
 
 class DOCUMENT_INDEX(enum.Enum):
     S_HOST = "m_host"

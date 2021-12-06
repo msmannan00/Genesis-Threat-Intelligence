@@ -4,8 +4,7 @@ import pandas as pd
 
 from crawler_instance.constants import constants
 from crawler_instance.constants.application_status import S_QUEUE_BACKUP_STATUS
-from crawler_instance.crawl_controller.crawl_enums import CRAWLER_STATUS, CRAWL_MODEL_COMMANDS, CRAWL_CONTROLLER_COMMANDS, \
-    CLASSIFIER
+from crawler_instance.crawl_controller.crawl_enums import CRAWLER_STATUS, CRAWL_MODEL_COMMANDS, CRAWL_CONTROLLER_COMMANDS, CLASSIFIER
 from crawler_instance.i_crawl_controller.i_crawl_enums import ICRAWL_CONTROLLER_COMMANDS
 from crawler_instance.log_manager.log_enums import INFO_MESSAGES
 from crawler_instance.request_handler.request_handler import request_handler
@@ -32,16 +31,12 @@ class crawl_controller(request_handler):
         data = data.sample(frac=1).reset_index(drop=True)
         for index, row in data.iterrows():
             try:
-                if row[CLASSIFIER.S_CLASSIFIER_LABEL.value] == CLASSIFIER.S_CLASSIFIER_NEWS.value or row[CLASSIFIER.S_CLASSIFIER_LABEL.value] == CLASSIFIER.S_CLASSIFIER_BUSINESS.value or row[CLASSIFIER.S_CLASSIFIER_LABEL.value] == CLASSIFIER.S_CLASSIFIER_ADULT.value:
-                    self.__m_crawl_model.invoke_trigger(CRAWL_MODEL_COMMANDS.S_SAVE_BACKUP_URL, [(row[CLASSIFIER.S_CLASSIFIER_URL.value]), 0, row[CLASSIFIER.S_CLASSIFIER_LABEL.value]])
+                if row[CLASSIFIER.S_CLASSIFIER_LABEL] == CLASSIFIER.S_CLASSIFIER_NEWS or row[CLASSIFIER.S_CLASSIFIER_LABEL] == CLASSIFIER.S_CLASSIFIER_BUSINESS or row[CLASSIFIER.S_CLASSIFIER_LABEL] == CLASSIFIER.S_CLASSIFIER_ADULT:
+                    self.__m_crawl_model.invoke_trigger(CRAWL_MODEL_COMMANDS.S_SAVE_BACKUP_URL, [(row[CLASSIFIER.S_CLASSIFIER_URL]), 0, row[CLASSIFIER.S_CLASSIFIER_LABEL]])
             except Exception as e:
                 pass
 
     def __on_run_topic_classifier(self):
-        self.__m_main_thread = threading.Thread(target=self.__init_thread_manager)
-        self.__m_main_thread.start()
-
-    def __on_run_general(self):
         self.__m_main_thread = threading.Thread(target=self.__init_thread_manager)
         self.__m_main_thread.start()
 
@@ -104,8 +99,6 @@ class crawl_controller(request_handler):
             return False, None
 
     def invoke_trigger(self, p_command, p_data=None):
-        if p_command == CRAWL_CONTROLLER_COMMANDS.S_RUN_GENERAL_CRAWLER:
-            self.__on_run_general()
         if p_command == CRAWL_CONTROLLER_COMMANDS.S_RUN_TOPIC_CLASSIFIER_CRAWLER:
             self.__on_run_topic_classifier()
         if p_command == CRAWL_CONTROLLER_COMMANDS.S_LOAD_TOPIC_CLASSIFIER_DATASET:

@@ -73,6 +73,7 @@ class crawl_model(request_handler):
 
     def __save_backup_url_to_drive(self, p_url, p_url_depth, p_category = None):
         if self.__m_duplication_handler.validate_duplicate_url(p_url) is False:
+            self.__m_duplication_handler.insert_url(p_url)
             application_status.S_QUEUE_BACKUP_STATUS = True
             m_host = helper_method.get_host_url(p_url)
             m_subhost = p_url.replace(m_host, strings.S_EMPTY)
@@ -81,8 +82,6 @@ class crawl_model(request_handler):
             else:
                 m_data = backup_model(m_host, m_subhost, p_url_depth, constants.S_THREAD_CATEGORY_GENERAL)
             mongo_controller.get_instance().invoke_trigger(MONGODB_COMMANDS.S_SAVE_BACKUP, m_data)
-        else:
-            self.__m_duplication_handler.insert_url(p_url)
 
     # Extract Fresh Host URL
     def __get_host_url(self):
