@@ -3,7 +3,6 @@ import re
 
 import nltk
 from gensim.parsing.preprocessing import is_stop_word
-from nltk.corpus import stopwords
 from crawler_instance.constants import constants
 from crawler_instance.log_manager.log_enums import ERROR_MESSAGES
 from genesis_crawler_services.constants import strings
@@ -15,7 +14,6 @@ nltk.download('punkt')
 class spell_checker_handler:
     __instance = None
     __spell_check = None
-    __nltk_stopwords = None
 
     # Initializations
     @staticmethod
@@ -30,7 +28,6 @@ class spell_checker_handler:
         else:
             self.__spell_check = set(open(constants.S_DICTIONARY_PATH).read().split())
             spell_checker_handler.__instance = self
-            self.__nltk_stopwords = stopwords.words(strings.S_STOPWORD_LANGUAGE)
 
     def init_dict(self):
         self.__spell_check = set(open(constants.S_DICTIONARY_MINI_PATH).read().split())

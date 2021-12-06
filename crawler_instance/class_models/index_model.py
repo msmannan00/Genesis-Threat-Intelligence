@@ -11,9 +11,7 @@ class index_model:
     m_url = strings.S_EMPTY
     m_content_type = constants.S_THREAD_CATEGORY_GENERAL
     m_validity_score = 0
-
     m_keyword = []
-    m_sub_url = []
 
     # Initializations
     def __init__(self, p_title=None, p_description=strings.S_EMPTY, p_url=None, p_content_type=None, p_keyword=[], p_validity_score=None):

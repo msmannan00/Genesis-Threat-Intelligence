@@ -13,7 +13,7 @@ class MONGODB_COMMANDS(enum.Enum):
     S_ADD_UNIQUE_HOST = '7'
 
 
-class MONGODB_COLLECTIONS(enum.Enum):
+class MONGODB_COLLECTIONS:
     S_INDEX_MODEL = 'index_model'
     S_BACKUP_MODEL = 'backup_model'
     S_UNIQUE_HOST_MODEL = 'unique_host'

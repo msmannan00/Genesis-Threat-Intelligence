@@ -17,8 +17,6 @@ class CRAWL_MODEL_COMMANDS(enum.Enum):
     S_SAVE_BACKUP_URL = 1
     S_GET_HOST_URL = 2
     S_INSERT_URL = 3
-    S_GET_SUB_URL = 4
-    S_CRAWL_FINISHED_STATUS = 5
 
 class CLASSIFIER:
     S_CLASSIFIER_LABEL = "CLASSIFIER"
@@ -27,7 +25,7 @@ class CLASSIFIER:
     S_CLASSIFIER_BUSINESS = "business"
     S_CLASSIFIER_ADULT = "adult"
 
-class DOCUMENT_INDEX(enum.Enum):
+class DOCUMENT_INDEX:
     S_HOST = "m_host"
 
 

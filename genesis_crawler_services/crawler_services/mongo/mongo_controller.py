@@ -1,9 +1,7 @@
 # Local Imports
-import json
 import pymongo
 
 from pymongo import WriteConcern
-from crawler_instance.class_models.backup_model import urlObjectEncoder
 from crawler_instance.constants import constants
 from crawler_instance.log_manager.log_manager import log
 from genesis_crawler_services.constants import strings
@@ -30,36 +28,34 @@ class mongo_controller(request_handler):
         self.__m_connection = pymongo.MongoClient(constants.S_DATABASE_IP, constants.S_DATABASE_PORT)[constants.S_DATABASE_NAME]
 
     def __clear_data(self):
-        m_collection_index = self.__m_connection[MONGODB_COLLECTIONS.S_INDEX_MODEL.value]
-        m_collection_backup = self.__m_connection[MONGODB_COLLECTIONS.S_BACKUP_MODEL.value]
-        m_collection_tfidf = self.__m_connection[MONGODB_COLLECTIONS.S_TFIDF_MODEL.value]
-        m_collection_m_unique_host = self.__m_connection[MONGODB_COLLECTIONS.S_UNIQUE_HOST_MODEL.value]
+        m_collection_index = self.__m_connection[MONGODB_COLLECTIONS.S_INDEX_MODEL]
+        m_collection_backup = self.__m_connection[MONGODB_COLLECTIONS.S_BACKUP_MODEL]
+        m_collection_tfidf = self.__m_connection[MONGODB_COLLECTIONS.S_TFIDF_MODEL]
+        m_collection_m_unique_host = self.__m_connection[MONGODB_COLLECTIONS.S_UNIQUE_HOST_MODEL]
         m_collection_index.delete_many({})
         m_collection_backup.delete_many({})
         m_collection_tfidf.delete_many({})
         m_collection_m_unique_host.delete_many({})
 
     def __get_parsed_url(self):
-        m_collection = self.__m_connection[MONGODB_COLLECTIONS.S_INDEX_MODEL.value]
+        m_collection = self.__m_connection[MONGODB_COLLECTIONS.S_INDEX_MODEL]
         m_collection_result = m_collection.find()
 
         return m_collection_result
 
     def __set_backup_url(self, p_data):
         try:
-            m_collection = self.__m_connection[MONGODB_COLLECTIONS.S_BACKUP_MODEL.value]
-            myquery = {'m_host': {'$eq': p_data.m_host},
-                       'm_catagory': {'$eq': p_data.m_catagory},
-                       'm_url_data': {'$not': {'$elemMatch': {'m_sub_host': p_data.m_url_data[0].m_sub_host}}}}
-            newvalues = {"$set": {'m_parsing': False},
-                         "$addToSet": {'m_url_data': json.loads(urlObjectEncoder().encode(p_data.m_url_data[0]))}}
-            m_collection.update_one(myquery, newvalues, upsert=True)
+            m_collection = self.__m_connection[MONGODB_COLLECTIONS.S_BACKUP_MODEL]
+            myquery = {'m_host': p_data.m_host,
+                       'm_parsing': False,
+                       'm_catagory': p_data.m_catagory}
+            m_collection.insert_one(myquery)
             log.g().i(strings.S_BACKUP_PARSED + " : " + p_data.m_host + p_data.m_url_data[0].m_sub_host)
         except Exception as ex:
             pass
 
     def __set_parse_url(self, p_data):
-        m_collection = self.__m_connection[MONGODB_COLLECTIONS.S_INDEX_MODEL.value]
+        m_collection = self.__m_connection[MONGODB_COLLECTIONS.S_INDEX_MODEL]
         myquery = {'m_url': {'$eq': p_data.m_url}}
         newvalues = {"$set": {'m_title': p_data.m_title,
                               'm_description': p_data.m_description,
@@ -71,7 +67,7 @@ class mongo_controller(request_handler):
         log.g().i(strings.S_URL_PARSED + " : " + p_data.m_url)
 
     def __get_backup_url(self, p_data):
-        m_collection = self.__m_connection[MONGODB_COLLECTIONS.S_BACKUP_MODEL.value]
+        m_collection = self.__m_connection[MONGODB_COLLECTIONS.S_BACKUP_MODEL]
         m_document_list = []
         m_document_list_id = []
         if p_data.m_catagory == "default":
@@ -87,18 +83,18 @@ class mongo_controller(request_handler):
         return len(m_document_list) > 0, m_document_list
 
     def __reset_backup_url(self):
-        m_collection = self.__m_connection[MONGODB_COLLECTIONS.S_BACKUP_MODEL.value]
+        m_collection = self.__m_connection[MONGODB_COLLECTIONS.S_BACKUP_MODEL]
         m_collection.update_many({},{"$set":{"m_parsing":False}})
 
     def __add_unique_host(self, p_data):
-        m_collection = self.__m_connection[MONGODB_COLLECTIONS.S_UNIQUE_HOST_MODEL.value]
+        m_collection = self.__m_connection[MONGODB_COLLECTIONS.S_UNIQUE_HOST_MODEL]
         m_collection.with_options(write_concern=WriteConcern(w=0)).insert({'m_host': p_data})
 
-        m_collection = self.__m_connection[MONGODB_COLLECTIONS.S_BACKUP_MODEL.value]
+        m_collection = self.__m_connection[MONGODB_COLLECTIONS.S_BACKUP_MODEL]
         m_collection.delete_one({'m_host': p_data})
 
     def __fetch_unique_host(self):
-        m_collection = self.__m_connection[MONGODB_COLLECTIONS.S_UNIQUE_HOST_MODEL.value]
+        m_collection = self.__m_connection[MONGODB_COLLECTIONS.S_UNIQUE_HOST_MODEL]
         m_collection_result = m_collection.find()
         return m_collection_result
 
