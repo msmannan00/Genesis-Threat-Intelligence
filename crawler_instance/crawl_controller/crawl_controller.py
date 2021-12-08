@@ -29,11 +29,7 @@ class crawl_controller(request_handler):
         data = pd.read_csv(RAW_PATH_CONSTANTS.S_PROJECT_PATH + RAW_PATH_CONSTANTS.S_DATASET_PATH)
         data = data.sample(frac=1).reset_index(drop=True)
         for index, row in data.iterrows():
-            try:
-                if row[CLASSIFIER.S_CLASSIFIER_LABEL] == CLASSIFIER.S_CLASSIFIER_NEWS or row[CLASSIFIER.S_CLASSIFIER_LABEL] == CLASSIFIER.S_CLASSIFIER_BUSINESS or row[CLASSIFIER.S_CLASSIFIER_LABEL] == CLASSIFIER.S_CLASSIFIER_ADULT:
-                    self.__m_crawl_model.invoke_trigger(CRAWL_MODEL_COMMANDS.S_SAVE_BACKUP_URL, [(row[CLASSIFIER.S_CLASSIFIER_URL]), row[CLASSIFIER.S_CLASSIFIER_LABEL]])
-            except Exception as e:
-                pass
+            self.__m_crawl_model.invoke_trigger(CRAWL_MODEL_COMMANDS.S_SAVE_BACKUP_URL, [(row[CLASSIFIER.S_CLASSIFIER_URL]), row[CLASSIFIER.S_CLASSIFIER_LABEL]])
 
     def __on_run_topic_classifier(self):
         self.__m_main_thread = threading.Thread(target=self.__init_thread_manager)

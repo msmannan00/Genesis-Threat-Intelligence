@@ -50,7 +50,7 @@ class mongo_controller(request_handler):
                        'm_parsing': False,
                        'm_catagory': p_data.m_catagory}
             m_collection.insert_one(myquery)
-            log.g().i(MESSAGE_STRINGS.S_BACKUP_PARSED + " : " + p_data.m_host + p_data.m_url_data[0].m_sub_host)
+            log.g().i(MESSAGE_STRINGS.S_BACKUP_PARSED + " : " + p_data.m_host)
         except Exception:
             pass
 
