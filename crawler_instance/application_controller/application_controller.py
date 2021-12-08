@@ -45,13 +45,13 @@ class application_controller(request_handler):
 
     # External Reuqest Manager
     def invoke_trigger(self, p_command, p_data=None):
-        if p_command == APPICATION_COMMANDS.S_CRAWL_TOPIC_CLASSIFIER_DATASET:
-            return self.__on_start_classifier_crawl()
         if p_command == APPICATION_COMMANDS.S_LOAD_TOPIC_CLASSIFIER_DATASET:
             return self.__on_load_classifier_dataset()
+        if p_command == APPICATION_COMMANDS.S_CRAWL_TOPIC_CLASSIFIER_DATASET:
+            return self.__on_start_classifier_crawl()
         if p_command == APPICATION_COMMANDS.S_INSTALL_TOPIC_CLASSIFIER:
             topic_classifier.get_instance().invoke_trigger(TOPIC_CLASSFIER_COMMANDS.S_GENERATE_CLASSIFIER)
 
 # mongo_controller.get_instance().invoke_trigger(MONGODB_COMMANDS.S_CLEAR_DATA, None)
 # mongo_controller.get_instance().invoke_trigger(MONGODB_COMMANDS.S_RESET_BACKUP_URL, None)
-application_controller.get_instance().invoke_trigger(APPICATION_COMMANDS.S_CRAWL_TOPIC_CLASSIFIER_DATASET)
+application_controller.get_instance().invoke_trigger(APPICATION_COMMANDS.S_INSTALL_TOPIC_CLASSIFIER)

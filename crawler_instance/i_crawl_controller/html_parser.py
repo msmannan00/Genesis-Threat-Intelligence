@@ -4,6 +4,8 @@ from abc import ABC
 from html.parser import HTMLParser
 from bs4 import BeautifulSoup
 from crawler_instance.constants import constants
+from crawler_instance.constants.constants import CRAWL_SETTINGS_CONSTANTS
+from crawler_instance.constants.strings import GENERIC_STRINGS
 from crawler_instance.i_crawl_controller.i_crawl_enums import PARSE_TAGS, PARSE_TAGS_STRINGS
 from genesis_crawler_services.constants import strings
 from genesis_crawler_services.helper_services.spell_checker_handler import spell_checker_handler
@@ -16,10 +18,10 @@ class html_parser(HTMLParser, ABC):
     def __init__(self, m_base_url, m_html):
         super().__init__()
 
-        self.m_title = strings.S_EMPTY
-        self.m_description = strings.S_EMPTY
-        self.m_keywords = strings.S_EMPTY
-        self.m_content_type = constants.S_THREAD_CATEGORY_GENERAL
+        self.m_title = GENERIC_STRINGS.S_EMPTY
+        self.m_description = GENERIC_STRINGS.S_EMPTY
+        self.m_keywords = GENERIC_STRINGS.S_EMPTY
+        self.m_content_type = CRAWL_SETTINGS_CONSTANTS.S_THREAD_CATEGORY_GENERAL
 
         self.m_base_url = m_base_url
         self.m_html = m_html
@@ -53,7 +55,7 @@ class html_parser(HTMLParser, ABC):
                         self.m_description = p_attrs[1][1]
                 elif p_attrs[0][1] == PARSE_TAGS_STRINGS.S_META_KEYWORD.value:
                     if len(p_attrs) > 1 and len(p_attrs[1]) > 0 and p_attrs[1][0] == PARSE_TAGS_STRINGS.S_META_CONTENT.value and p_attrs[1][1] is not None:
-                        self.m_keywords = p_attrs[1][1].replace(",", strings.S_SPACE)
+                        self.m_keywords = p_attrs[1][1].replace(",", GENERIC_STRINGS.S_SPACE)
             except Exception as ex:
                 pass
 

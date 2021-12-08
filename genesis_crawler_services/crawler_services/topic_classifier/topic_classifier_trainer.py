@@ -7,16 +7,14 @@ import sklearn
 import pickle
 import pandas as pd
 from sklearn.ensemble import RandomForestClassifier
-from sklearn.naive_bayes import MultinomialNB
 
 from pathlib import Path
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.feature_selection import SelectKBest, chi2
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score, f1_score, precision_score, recall_score
-from sklearn.neural_network import MLPClassifier
-
-from genesis_crawler_services.constants import constants, strings
+from genesis_crawler_services.constants.constants import shared_constants, classifier_constants
+from genesis_crawler_services.constants.strings import generic_strings
 from genesis_crawler_services.crawler_services.mongo.mongo_enums import MONGODB_COMMANDS
 from genesis_crawler_services.crawler_services.topic_classifier.topic_classifier_enums import TOPIC_CLASSFIER_TRAINER
 from genesis_crawler_services.helper_services.spell_checker_handler import spell_checker_handler
@@ -40,15 +38,15 @@ class topic_classifier_trainer(request_handler):
         spell_checker_handler.get_instance().init_dict()
 
     def __clear_existing_data(self):
-        if os.path.isdir(constants.S_PROJECT_PATH + constants.S_CLASSIFIER_FOLDER_PATH):
-            shutil.rmtree(constants.S_PROJECT_PATH + constants.S_CLASSIFIER_FOLDER_PATH)
-        os.mkdir(constants.S_PROJECT_PATH + constants.S_CLASSIFIER_FOLDER_PATH)
+        if os.path.isdir(shared_constants.S_PROJECT_PATH + classifier_constants.S_CLASSIFIER_FOLDER_PATH):
+            shutil.rmtree(shared_constants.S_PROJECT_PATH + classifier_constants.S_CLASSIFIER_FOLDER_PATH)
+        os.mkdir(shared_constants.S_PROJECT_PATH + classifier_constants.S_CLASSIFIER_FOLDER_PATH)
 
     def __read_dataset(self):
         m_result = mongo_controller.get_instance().invoke_trigger(MONGODB_COMMANDS.S_GET_PARSE_URL, None)
 
-        if Path(constants.S_PROJECT_PATH + constants.S_TRAINING_DATA_PATH).exists():
-            os.remove(constants.S_PROJECT_PATH + constants.S_TRAINING_DATA_PATH)
+        if Path(shared_constants.S_PROJECT_PATH + classifier_constants.S_TRAINING_DATA_PATH).exists():
+            os.remove(shared_constants.S_PROJECT_PATH + classifier_constants.S_TRAINING_DATA_PATH)
 
         m_adult = 0
         m_business = 0
@@ -72,22 +70,22 @@ class topic_classifier_trainer(request_handler):
             else:
                 continue
 
-            if m_url == strings.S_EMPTY:
+            if m_url == generic_strings.S_EMPTY:
                 m_url = "None"
-            if m_description == strings.S_EMPTY:
+            if m_description == generic_strings.S_EMPTY:
                 m_description = "None"
-            if m_title == strings.S_EMPTY:
+            if m_title == generic_strings.S_EMPTY:
                 m_title = "None"
-            if m_keyword == strings.S_EMPTY:
+            if m_keyword == generic_strings.S_EMPTY:
                 m_keyword = "None"
-            if m_content_type == strings.S_EMPTY:
+            if m_content_type == generic_strings.S_EMPTY:
                 m_content_type = "None"
 
             m_item = m_url + "," + m_description + "," + m_title + "," + m_keyword + "," + m_content_type
             m_url_list.append(m_item)
 
         m_count = 0
-        with open(constants.S_PROJECT_PATH + constants.S_TRAINING_DATA_PATH, 'w', encoding="utf-8") as f:
+        with open(shared_constants.S_PROJECT_PATH + classifier_constants.S_TRAINING_DATA_PATH, 'w', encoding="utf-8") as f:
             for item in m_url_list:
                 if m_count < len(m_url_list) - 1:
                     f.write("%s\n" % item)
@@ -123,7 +121,7 @@ class topic_classifier_trainer(request_handler):
 
         # READ COMMENTS
         print("READING...")
-        m_dataframe = pd.read_csv(constants.S_PROJECT_PATH + constants.S_TRAINING_DATA_PATH)
+        m_dataframe = pd.read_csv(shared_constants.S_PROJECT_PATH + classifier_constants.S_TRAINING_DATA_PATH)
         m_dataframe.dropna(inplace=True)
         label = m_dataframe["prediction"]
         print("READING FINISHED...")
@@ -160,7 +158,7 @@ class topic_classifier_trainer(request_handler):
         X = vectorizer_description_generic.transform(m_dataframe['description'])
         m_description = pd.DataFrame(X.toarray(), columns=vectorizer_description_generic.get_feature_names())
         m_description *= 2
-        pickle.dump(vectorizer_description_generic, open(constants.S_PROJECT_PATH + constants.S_VECTORIZER_PATH, "wb"))
+        pickle.dump(vectorizer_description_generic, open(shared_constants.S_PROJECT_PATH + classifier_constants.S_VECTORIZER_PATH, "wb"))
 
         m_dataframe = m_title + m_description + m_keyword
         # m_dataframe = m_keyword
@@ -171,10 +169,10 @@ class topic_classifier_trainer(request_handler):
         m_dataframe = self.clean_dataset(m_dataframe)
         X = m_dataframe
         Y = label
-        m_select = SelectKBest(chi2, k=2000)
+        m_select = SelectKBest(chi2, k=3500)
         m_select.fit(X, Y)
         X = m_select.transform(X)
-        pickle.dump(m_select, open(constants.S_PROJECT_PATH + constants.S_SELECTKBEST_PATH, 'wb'))
+        pickle.dump(m_select, open(shared_constants.S_PROJECT_PATH + classifier_constants.S_SELECTKBEST_PATH, 'wb'))
         print("SELECTING FINISHED...")
 
         # SPLIT TEST TRAIN
@@ -207,7 +205,7 @@ class topic_classifier_trainer(request_handler):
 
         # SAVING
         print("SAVING MODEL...")
-        pickle.dump(trainedModel, open(constants.S_PROJECT_PATH + constants.S_CLASSIFIER_PICKLE_PATH, 'wb'))
+        pickle.dump(trainedModel, open(shared_constants.S_PROJECT_PATH + classifier_constants.S_CLASSIFIER_PICKLE_PATH, 'wb'))
         print("SAVING MODEL FINISHED FINISHED...")
 
         # SHOW PREDICTIONS

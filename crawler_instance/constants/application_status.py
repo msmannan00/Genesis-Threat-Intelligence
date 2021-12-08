@@ -1,4 +1,4 @@
 
-# Crawler Queue Status
-S_QUEUE_BACKUP_STATUS = True
+class CRAWL_STATUS:
+    S_QUEUE_BACKUP_STATUS = True
 

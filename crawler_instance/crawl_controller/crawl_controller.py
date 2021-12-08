@@ -2,7 +2,7 @@
 import threading
 import pandas as pd
 
-from crawler_instance.constants import constants
+from crawler_instance.constants.constants import CRAWL_SETTINGS_CONSTANTS, RAW_PATH_CONSTANTS
 from crawler_instance.crawl_controller.crawl_enums import CRAWLER_STATUS, CRAWL_MODEL_COMMANDS, CRAWL_CONTROLLER_COMMANDS, CLASSIFIER
 from crawler_instance.i_crawl_controller.i_crawl_enums import ICRAWL_CONTROLLER_COMMANDS
 from crawler_instance.log_manager.log_enums import INFO_MESSAGES
@@ -26,12 +26,12 @@ class crawl_controller(request_handler):
 
     # Start Crawler Manager
     def __load_classifier_from_database(self):
-        data = pd.read_csv(constants.S_PROJECT_PATH + constants.S_DATASET_PATH)
+        data = pd.read_csv(RAW_PATH_CONSTANTS.S_PROJECT_PATH + RAW_PATH_CONSTANTS.S_DATASET_PATH)
         data = data.sample(frac=1).reset_index(drop=True)
         for index, row in data.iterrows():
             try:
                 if row[CLASSIFIER.S_CLASSIFIER_LABEL] == CLASSIFIER.S_CLASSIFIER_NEWS or row[CLASSIFIER.S_CLASSIFIER_LABEL] == CLASSIFIER.S_CLASSIFIER_BUSINESS or row[CLASSIFIER.S_CLASSIFIER_LABEL] == CLASSIFIER.S_CLASSIFIER_ADULT:
-                    self.__m_crawl_model.invoke_trigger(CRAWL_MODEL_COMMANDS.S_SAVE_BACKUP_URL, [(row[CLASSIFIER.S_CLASSIFIER_URL]), 0, row[CLASSIFIER.S_CLASSIFIER_LABEL]])
+                    self.__m_crawl_model.invoke_trigger(CRAWL_MODEL_COMMANDS.S_SAVE_BACKUP_URL, [(row[CLASSIFIER.S_CLASSIFIER_URL]), row[CLASSIFIER.S_CLASSIFIER_LABEL]])
             except Exception as e:
                 pass
 
@@ -41,10 +41,9 @@ class crawl_controller(request_handler):
 
     # ICrawler Manager
     def __init_thread_manager(self):
-        self.__m_crawl_model.invoke_trigger(CRAWL_MODEL_COMMANDS.S_SAVE_BACKUP_URL, [constants.S_START_URL, constants.S_THREAD_CATEGORY_GENERAL])
         while True:
             self.__crawler_instance_manager()
-            while len(self.__m_crawler_instance_list) < constants.S_MAX_THREAD_COUNT_PER_INSTANCE:
+            while len(self.__m_crawler_instance_list) < CRAWL_SETTINGS_CONSTANTS.S_MAX_THREAD_COUNT_PER_INSTANCE:
                 m_status, m_url_model = self.__m_crawl_model.invoke_trigger(CRAWL_MODEL_COMMANDS.S_GET_HOST_URL)
                 if m_status is False:
                     break

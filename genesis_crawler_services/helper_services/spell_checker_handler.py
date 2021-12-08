@@ -1,13 +1,12 @@
 # Local Imports
 import re
-
 import nltk
-from gensim.parsing.preprocessing import is_stop_word
-from crawler_instance.constants import constants
-from crawler_instance.log_manager.log_enums import ERROR_MESSAGES
-from genesis_crawler_services.constants import strings
 
-# English Spell Check Handler
+from gensim.parsing.preprocessing import is_stop_word
+from crawler_instance.log_manager.log_enums import ERROR_MESSAGES
+from genesis_crawler_services.constants.constants import classifier_constants
+from genesis_crawler_services.constants.strings import generic_strings
+
 nltk.download('stopwords')
 nltk.download('punkt')
 
@@ -26,11 +25,11 @@ class spell_checker_handler:
         if spell_checker_handler.__instance is not None:
             raise Exception(ERROR_MESSAGES.S_SINGLETON_EXCEPTION)
         else:
-            self.__spell_check = set(open(constants.S_DICTIONARY_PATH).read().split())
+            self.__spell_check = set(open(classifier_constants.S_DICTIONARY_PATH).read().split())
             spell_checker_handler.__instance = self
 
     def init_dict(self):
-        self.__spell_check = set(open(constants.S_DICTIONARY_MINI_PATH).read().split())
+        self.__spell_check = set(open(classifier_constants.S_DICTIONARY_MINI_PATH).read().split())
 
     # List Word Validator - Divides the list into 2 list of valid and invalid words
     def validation_handler(self, p_word_list):
@@ -97,4 +96,4 @@ class spell_checker_handler:
             m_is_sentence_valid = self.sentence_validator(sentence)
             if m_is_sentence_valid:
                 return " - " + sentence
-        return strings.S_EMPTY
+        return generic_strings.S_EMPTY

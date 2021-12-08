@@ -2,9 +2,9 @@
 import pymongo
 
 from pymongo import WriteConcern
-from crawler_instance.constants import constants
+from crawler_instance.constants.constants import CRAWL_SETTINGS_CONSTANTS
 from crawler_instance.log_manager.log_manager import log
-from genesis_crawler_services.constants import strings
+from genesis_crawler_services.constants.strings import MESSAGE_STRINGS
 from genesis_crawler_services.crawler_services.mongo.mongo_enums import MONGODB_COMMANDS, MONGODB_COLLECTIONS
 from genesis_crawler_services.shared_model.request_handler import request_handler
 
@@ -25,7 +25,7 @@ class mongo_controller(request_handler):
         self.__link_connection()
 
     def __link_connection(self):
-        self.__m_connection = pymongo.MongoClient(constants.S_DATABASE_IP, constants.S_DATABASE_PORT)[constants.S_DATABASE_NAME]
+        self.__m_connection = pymongo.MongoClient(CRAWL_SETTINGS_CONSTANTS.S_DATABASE_IP, CRAWL_SETTINGS_CONSTANTS.S_DATABASE_PORT)[CRAWL_SETTINGS_CONSTANTS.S_DATABASE_NAME]
 
     def __clear_data(self):
         m_collection_index = self.__m_connection[MONGODB_COLLECTIONS.S_INDEX_MODEL]
@@ -50,8 +50,8 @@ class mongo_controller(request_handler):
                        'm_parsing': False,
                        'm_catagory': p_data.m_catagory}
             m_collection.insert_one(myquery)
-            log.g().i(strings.S_BACKUP_PARSED + " : " + p_data.m_host + p_data.m_url_data[0].m_sub_host)
-        except Exception as ex:
+            log.g().i(MESSAGE_STRINGS.S_BACKUP_PARSED + " : " + p_data.m_host + p_data.m_url_data[0].m_sub_host)
+        except Exception:
             pass
 
     def __set_parse_url(self, p_data):
@@ -64,16 +64,16 @@ class mongo_controller(request_handler):
                               }}
         m_collection.update_one(myquery, newvalues, upsert=True)
 
-        log.g().i(strings.S_URL_PARSED + " : " + p_data.m_url)
+        log.g().i(MESSAGE_STRINGS.S_URL_PARSED + " : " + p_data.m_url)
 
     def __get_backup_url(self, p_data):
         m_collection = self.__m_connection[MONGODB_COLLECTIONS.S_BACKUP_MODEL]
         m_document_list = []
         m_document_list_id = []
         if p_data.m_catagory == "default":
-            m_collection_result = m_collection.find({'m_parsing': {'$eq': False}}).limit(constants.S_BACKUP_FETCH_LIMIT)
+            m_collection_result = m_collection.find({'m_parsing': {'$eq': False}}).limit(CRAWL_SETTINGS_CONSTANTS.S_BACKUP_FETCH_LIMIT)
         else:
-            m_collection_result = m_collection.find({'m_parsing': {'$eq': False}}).limit(constants.S_BACKUP_FETCH_LIMIT)
+            m_collection_result = m_collection.find({'m_parsing': {'$eq': False}}).limit(CRAWL_SETTINGS_CONSTANTS.S_BACKUP_FETCH_LIMIT)
 
         for m_document in m_collection_result:
             m_document_list.append(m_document)
