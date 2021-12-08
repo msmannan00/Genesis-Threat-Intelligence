@@ -54,4 +54,4 @@ class application_controller(request_handler):
 
 mongo_controller.get_instance().invoke_trigger(MONGODB_COMMANDS.S_CLEAR_DATA, None)
 mongo_controller.get_instance().invoke_trigger(MONGODB_COMMANDS.S_RESET_BACKUP_URL, None)
-# application_controller.get_instance().invoke_trigger(APPICATION_COMMANDS.S_INSTALL_TOPIC_CLASSIFIER)
+application_controller.get_instance().invoke_trigger(APPICATION_COMMANDS.S_LOAD_TOPIC_CLASSIFIER_DATASET)

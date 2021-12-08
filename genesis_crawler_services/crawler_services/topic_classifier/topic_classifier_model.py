@@ -2,7 +2,7 @@ import os
 import pickle
 import pandas as pd
 
-from genesis_crawler_services.constants.constants import classifier_constants, shared_constants
+from genesis_crawler_services.constants.constant import shared_constants, classifier_constants
 from genesis_crawler_services.crawler_services.topic_classifier.topic_classifier_enums import TOPIC_CLASSFIER_MODEL
 from genesis_crawler_services.shared_model.request_handler import request_handler
 
