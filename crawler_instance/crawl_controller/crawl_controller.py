@@ -2,7 +2,7 @@
 import threading
 import pandas as pd
 
-from crawler_instance.constants.constants import CRAWL_SETTINGS_CONSTANTS, RAW_PATH_CONSTANTS
+from crawler_instance.constants.constant import CRAWL_SETTINGS_CONSTANTS, RAW_PATH_CONSTANTS
 from crawler_instance.crawl_controller.crawl_enums import CRAWLER_STATUS, CRAWL_MODEL_COMMANDS, CRAWL_CONTROLLER_COMMANDS, CLASSIFIER
 from crawler_instance.i_crawl_controller.i_crawl_enums import ICRAWL_CONTROLLER_COMMANDS
 from crawler_instance.log_manager.log_enums import INFO_MESSAGES

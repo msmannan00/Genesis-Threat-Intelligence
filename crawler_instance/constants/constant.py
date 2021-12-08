@@ -51,3 +51,4 @@ class CRAWL_SETTINGS_CONSTANTS:
 
     # Crawl Catagory
     S_THREAD_CATEGORY_GENERAL = "General"
+

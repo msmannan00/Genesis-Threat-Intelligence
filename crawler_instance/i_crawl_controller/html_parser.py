@@ -3,11 +3,9 @@ import re
 from abc import ABC
 from html.parser import HTMLParser
 from bs4 import BeautifulSoup
-from crawler_instance.constants import constants
-from crawler_instance.constants.constants import CRAWL_SETTINGS_CONSTANTS
+from crawler_instance.constants.constant import CRAWL_SETTINGS_CONSTANTS
 from crawler_instance.constants.strings import GENERIC_STRINGS
 from crawler_instance.i_crawl_controller.i_crawl_enums import PARSE_TAGS, PARSE_TAGS_STRINGS
-from genesis_crawler_services.constants import strings
 from genesis_crawler_services.helper_services.spell_checker_handler import spell_checker_handler
 from gensim.parsing.preprocessing import remove_stopwords
 
@@ -56,7 +54,7 @@ class html_parser(HTMLParser, ABC):
                 elif p_attrs[0][1] == PARSE_TAGS_STRINGS.S_META_KEYWORD.value:
                     if len(p_attrs) > 1 and len(p_attrs[1]) > 0 and p_attrs[1][0] == PARSE_TAGS_STRINGS.S_META_CONTENT.value and p_attrs[1][1] is not None:
                         self.m_keywords = p_attrs[1][1].replace(",", GENERIC_STRINGS.S_SPACE)
-            except Exception as ex:
+            except Exception:
                 pass
 
     def handle_data(self, p_data):

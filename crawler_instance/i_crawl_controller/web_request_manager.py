@@ -1,6 +1,6 @@
 import eventlet
 
-from crawler_instance.constants.constants import CRAWL_SETTINGS_CONSTANTS
+from crawler_instance.constants.constant import CRAWL_SETTINGS_CONSTANTS
 from crawler_instance.constants.strings import GENERIC_STRINGS
 from crawler_instance.helper_method.helper_method import helper_method
 from crawler_instance.i_crawl_controller.i_crawl_enums import RESPONSE_CODE

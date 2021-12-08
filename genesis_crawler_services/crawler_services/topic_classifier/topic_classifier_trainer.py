@@ -2,6 +2,7 @@ import os
 import os.path
 import re
 import shutil
+
 import numpy as np
 import sklearn
 import pickle
@@ -13,7 +14,8 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.feature_selection import SelectKBest, chi2
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score, f1_score, precision_score, recall_score
-from genesis_crawler_services.constants.constants import shared_constants, classifier_constants
+
+from genesis_crawler_services.constants.constant import shared_constants, classifier_constants
 from genesis_crawler_services.constants.strings import generic_strings
 from genesis_crawler_services.crawler_services.mongo.mongo_enums import MONGODB_COMMANDS
 from genesis_crawler_services.crawler_services.topic_classifier.topic_classifier_enums import TOPIC_CLASSFIER_TRAINER
@@ -121,7 +123,7 @@ class topic_classifier_trainer(request_handler):
 
         # READ COMMENTS
         print("READING...")
-        m_dataframe = pd.read_csv(shared_constants.S_PROJECT_PATH + classifier_constants.S_TRAINING_DATA_PATH)
+        m_dataframe = pd.read_csv(shared_constants.S_PROJECT_PATH + classifier_constants.S_TRAINING_DATA_PATH, on_bad_lines='skip')
         m_dataframe.dropna(inplace=True)
         label = m_dataframe["prediction"]
         print("READING FINISHED...")
@@ -149,14 +151,14 @@ class topic_classifier_trainer(request_handler):
 
         vectorizer_description_generic.fit(m_dataframe['keywords'] )
         X = vectorizer_description_generic.transform(m_dataframe['keywords'])
-        m_keyword = pd.DataFrame(X.toarray(), columns=vectorizer_description_generic.get_feature_names())
+        m_keyword = pd.DataFrame(X.toarray(), columns=vectorizer_description_generic.get_feature_names_out())
 
         X = vectorizer_description_generic.transform(m_dataframe['title'])
-        m_title = pd.DataFrame(X.toarray(), columns=vectorizer_description_generic.get_feature_names())
+        m_title = pd.DataFrame(X.toarray(), columns=vectorizer_description_generic.get_feature_names_out())
         m_title *= 3
 
         X = vectorizer_description_generic.transform(m_dataframe['description'])
-        m_description = pd.DataFrame(X.toarray(), columns=vectorizer_description_generic.get_feature_names())
+        m_description = pd.DataFrame(X.toarray(), columns=vectorizer_description_generic.get_feature_names_out())
         m_description *= 2
         pickle.dump(vectorizer_description_generic, open(shared_constants.S_PROJECT_PATH + classifier_constants.S_VECTORIZER_PATH, "wb"))
 

@@ -1,0 +1,15 @@
+###### Requirements without Version Specifiers ######
+beautifulsoup4
+bs4
+gensim
+pandas
+eventlet
+pymongo
+sklearn
+nltk
+pyprobables
+requests[socks]
+numpy
+
+###### Requirements with Version Specifiers ######
+simplejson==3.8.0

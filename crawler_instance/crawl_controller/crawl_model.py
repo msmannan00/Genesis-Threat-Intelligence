@@ -1,7 +1,7 @@
 # Local Libraries
 from crawler_instance.class_models.backup_model import backup_model
 from crawler_instance.constants.application_status import CRAWL_STATUS
-from crawler_instance.constants.constants import CRAWL_SETTINGS_CONSTANTS
+from crawler_instance.constants.constant import CRAWL_SETTINGS_CONSTANTS
 from crawler_instance.constants.keys import classifier_constants
 from crawler_instance.constants.strings import GENERIC_STRINGS
 from crawler_instance.crawl_controller.crawl_enums import CRAWL_MODEL_COMMANDS, DOCUMENT_INDEX

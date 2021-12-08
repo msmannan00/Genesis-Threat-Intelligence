@@ -1,6 +1,7 @@
 # Local Imports
 from urllib.parse import urlparse
 import requests
+from gensim.parsing.preprocessing import STOPWORDS
 
 
 class helper_method:
@@ -71,3 +72,11 @@ class helper_method:
     def on_create_session():
         m_request_handler = requests.Session()
         return m_request_handler
+
+    @staticmethod
+    def is_stop_word(p_word):
+        if p_word in STOPWORDS:
+            return True
+        else:
+            return False
+

@@ -2,9 +2,9 @@
 import re
 import nltk
 
-from gensim.parsing.preprocessing import is_stop_word
+from crawler_instance.helper_method.helper_method import helper_method
 from crawler_instance.log_manager.log_enums import ERROR_MESSAGES
-from genesis_crawler_services.constants.constants import classifier_constants
+from genesis_crawler_services.constants.constant import classifier_constants
 from genesis_crawler_services.constants.strings import generic_strings
 
 nltk.download('stopwords')
@@ -38,7 +38,7 @@ class spell_checker_handler:
 
         if len(p_word_list) > 1:
             for word in set(p_word_list):
-                if is_stop_word(word) is False:
+                if helper_method.is_stop_word(word) is False:
                     if word in self.__spell_check and word not in valid:
                         valid.append(word)
                     elif word not in invalid:
@@ -55,7 +55,7 @@ class spell_checker_handler:
         valid = []
 
         for word in m_word_list:
-            if is_stop_word(word) is False:
+            if helper_method.is_stop_word(word) is False:
                 if word in self.__spell_check and word not in valid:
                     valid.append(word)
                 elif word not in invalid and not word.isnumeric():
@@ -80,7 +80,7 @@ class spell_checker_handler:
         m_invalid_count = 0
         m_sentence_list = p_sentence.split()
         for word in m_sentence_list:
-            if is_stop_word(word) is True or word in self.__spell_check:
+            if helper_method.is_stop_word(word) is True or word in self.__spell_check:
                 m_valid_count += 1
             else:
                 m_invalid_count += 1

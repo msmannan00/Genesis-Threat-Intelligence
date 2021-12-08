@@ -2,7 +2,7 @@
 import pymongo
 
 from pymongo import WriteConcern
-from crawler_instance.constants.constants import CRAWL_SETTINGS_CONSTANTS
+from crawler_instance.constants.constant import CRAWL_SETTINGS_CONSTANTS
 from crawler_instance.log_manager.log_manager import log
 from genesis_crawler_services.constants.strings import MESSAGE_STRINGS
 from genesis_crawler_services.crawler_services.mongo.mongo_enums import MONGODB_COMMANDS, MONGODB_COLLECTIONS

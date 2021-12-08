@@ -52,6 +52,6 @@ class application_controller(request_handler):
         if p_command == APPICATION_COMMANDS.S_INSTALL_TOPIC_CLASSIFIER:
             topic_classifier.get_instance().invoke_trigger(TOPIC_CLASSFIER_COMMANDS.S_GENERATE_CLASSIFIER)
 
-# mongo_controller.get_instance().invoke_trigger(MONGODB_COMMANDS.S_CLEAR_DATA, None)
-# mongo_controller.get_instance().invoke_trigger(MONGODB_COMMANDS.S_RESET_BACKUP_URL, None)
-application_controller.get_instance().invoke_trigger(APPICATION_COMMANDS.S_INSTALL_TOPIC_CLASSIFIER)
+mongo_controller.get_instance().invoke_trigger(MONGODB_COMMANDS.S_CLEAR_DATA, None)
+mongo_controller.get_instance().invoke_trigger(MONGODB_COMMANDS.S_RESET_BACKUP_URL, None)
+# application_controller.get_instance().invoke_trigger(APPICATION_COMMANDS.S_INSTALL_TOPIC_CLASSIFIER)
