@@ -1,4 +1,8 @@
-###### Requirements without Version Specifiers ######
+###### Requirements For Docker ######
+Django>=3.0,<4.0
+psycopg2>=2.8
+
+###### Requirements Without Version Specifiers ######
 beautifulsoup4
 bs4
 gensim
@@ -10,6 +14,8 @@ nltk
 pyprobables
 requests[socks]
 numpy
+stopwords
+termcolor
 
-###### Requirements with Version Specifiers ######
+###### Requirements With Version Specifiers ######
 simplejson==3.8.0
