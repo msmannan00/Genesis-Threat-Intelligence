@@ -2,7 +2,7 @@ import os
 import pickle
 import pandas as pd
 
-from crawler_services.constants.constant import shared_constants, classifier_constants
+from crawler_services.constants.constant import SHARED_CONSTANT, CLASSIFIER_PATH_CONSTANT
 from crawler_services.native_services.topic_classifier_manager.topic_classifier_enums import TOPIC_CLASSFIER_MODEL
 from crawler_services.shared_model.request_handler import request_handler
 
@@ -17,9 +17,9 @@ class topic_classifier_model(request_handler):
 
     def __classifier_exists(self):
         if self.__m_classifier_trained is not True:
-            if os.path.exists(shared_constants.S_PROJECT_PATH + classifier_constants.S_VECTORIZER_PATH) is True and \
-               os.path.exists(shared_constants.S_PROJECT_PATH + classifier_constants.S_SELECTKBEST_PATH) is True and \
-               os.path.exists(shared_constants.S_PROJECT_PATH + classifier_constants.S_TRAINING_DATA_PATH) is True:
+            if os.path.exists(SHARED_CONSTANT.S_PROJECT_PATH + CLASSIFIER_PATH_CONSTANT.S_VECTORIZER_PATH) is True and \
+               os.path.exists(SHARED_CONSTANT.S_PROJECT_PATH + CLASSIFIER_PATH_CONSTANT.S_SELECTKBEST_PATH) is True and \
+               os.path.exists(SHARED_CONSTANT.S_PROJECT_PATH + CLASSIFIER_PATH_CONSTANT.S_TRAINING_DATA_PATH) is True:
                 self.__m_classifier_trained = True
                 self.__load_classifier()
                 return True
@@ -29,9 +29,9 @@ class topic_classifier_model(request_handler):
             return True
 
     def __load_classifier(self):
-        self.__m_vectorizer = pickle.load(open(shared_constants.S_PROJECT_PATH + classifier_constants.S_VECTORIZER_PATH, 'rb'))
-        self.__m_feature_selector = pickle.load(open(shared_constants.S_PROJECT_PATH + classifier_constants.S_SELECTKBEST_PATH, 'rb'))
-        self.__m_classifier = pickle.load(open(shared_constants.S_PROJECT_PATH + classifier_constants.S_CLASSIFIER_PICKLE_PATH, 'rb'))
+        self.__m_vectorizer = pickle.load(open(SHARED_CONSTANT.S_PROJECT_PATH + CLASSIFIER_PATH_CONSTANT.S_VECTORIZER_PATH, 'rb'))
+        self.__m_feature_selector = pickle.load(open(SHARED_CONSTANT.S_PROJECT_PATH + CLASSIFIER_PATH_CONSTANT.S_SELECTKBEST_PATH, 'rb'))
+        self.__m_classifier = pickle.load(open(SHARED_CONSTANT.S_PROJECT_PATH + CLASSIFIER_PATH_CONSTANT.S_CLASSIFIER_PICKLE_PATH, 'rb'))
 
     def __predict_classifier(self, p_title,p_description, p_keyword):
         m_status = self.__classifier_exists()

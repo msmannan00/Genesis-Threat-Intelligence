@@ -5,7 +5,7 @@ from native_services.constants.strings import GENERIC_STRINGS
 from native_services.helper_method.helper_method import helper_method
 from native_services.i_crawl_manager.i_crawl_enums import RESPONSE_CODE
 from native_services.log_manager.log_manager import log
-from crawler_services.constants.strings import MESSAGE_STRINGS, generic_strings
+from crawler_services.constants.strings import MESSAGE_STRINGS, GENERIC_STRINGS
 
 
 class web_request_manager:
@@ -17,7 +17,7 @@ class web_request_manager:
         try:
             with eventlet.Timeout(1):
                 page = m_request_handler.get(p_url, timeout=CRAWL_SETTINGS_CONSTANTS.S_URL_TIMEOUT, allow_redirects=True, )
-                m_html = page.content.decode(generic_strings.S_ISO)
+                m_html = page.content.decode(GENERIC_STRINGS.S_ISO)
 
             if page.status_code != RESPONSE_CODE.S_SUCCESS.value or page.content == GENERIC_STRINGS.S_EMPTY:
                 return p_url, False, None

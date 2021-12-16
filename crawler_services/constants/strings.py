@@ -1,5 +1,5 @@
 
-class generic_strings:
+class GENERIC_STRINGS:
     S_EMPTY = ""
     S_SPACE = " "
     S_ISO = "ISO-8859-1"

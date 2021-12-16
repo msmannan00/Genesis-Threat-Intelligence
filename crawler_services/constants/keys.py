@@ -1,3 +1,3 @@
 
-class classifier_constants:
+class CLASSIFIER_CONSTANTS:
     S_MONGO_HOST = "m_host"

@@ -1,6 +1,6 @@
 import enum
 
-class MONGODB_CRUD_COMMANDS(enum.Enum):
+class mongo_crud(enum.Enum):
     S_CREATE = '1'
     S_READ = '2'
     S_UPDATE = '3'

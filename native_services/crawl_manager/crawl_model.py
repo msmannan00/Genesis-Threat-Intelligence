@@ -3,13 +3,13 @@ from crawler_services.constants.strings import MESSAGE_STRINGS
 from native_services.shared_models.backup_model import backup_model
 from native_services.constants.application_status import CRAWL_STATUS
 from native_services.constants.constant import CRAWL_SETTINGS_CONSTANTS
-from native_services.constants.keys import classifier_constants
+from native_services.constants.keys import CLASSIFIER_CONSTANT
 from native_services.constants.strings import GENERIC_STRINGS
 from native_services.crawl_manager.crawl_enums import CRAWL_MODEL_COMMANDS, DOCUMENT_INDEX
 from native_services.helper_method.helper_method import helper_method
 from native_services.log_manager.log_enums import ERROR_MESSAGES, INFO_MESSAGES
 from native_services.request_manager.request_handler import request_handler
-from crawler_services.native_services.mongo_manager.mongo_enums import MONGODB_COMMANDS, MONGODB_CRUD_COMMANDS
+from crawler_services.native_services.mongo_manager.mongo_enums import MONGODB_COMMANDS, mongo_crud
 from crawler_services.helper_services.duplication_handler import duplication_handler
 from native_services.shared_models.queue_url_model import queue_url_model
 from native_services.log_manager.log_manager import log
@@ -56,7 +56,7 @@ class crawl_model(request_handler):
                 m_data = backup_model(m_host, p_category)
             else:
                 m_data = backup_model(m_host, CRAWL_SETTINGS_CONSTANTS.S_THREAD_CATEGORY_GENERAL)
-            mongo_controller.get_instance().invoke_trigger(MONGODB_CRUD_COMMANDS.S_CREATE,[MONGODB_COMMANDS.S_SAVE_BACKUP, m_data])
+            mongo_controller.get_instance().invoke_trigger(mongo_crud.S_CREATE, [MONGODB_COMMANDS.S_SAVE_BACKUP, m_data])
             log.g().i(MESSAGE_STRINGS.S_BACKUP_PARSED + " : " + m_data.m_host)
 
     # Extract Fresh Host URL
@@ -77,7 +77,7 @@ class crawl_model(request_handler):
     # Extract Sub URL - Extract url in relation to host extracted in above ^ function
     def __load_backup_url(self):
         m_data = backup_model(GENERIC_STRINGS.S_EMPTY, CRAWL_SETTINGS_CONSTANTS.S_THREAD_CATEGORY_GENERAL)
-        m_backup_model = mongo_controller.get_instance().invoke_trigger(MONGODB_CRUD_COMMANDS.S_READ,[MONGODB_COMMANDS.S_GET_UNPARSED_URL, CRAWL_SETTINGS_CONSTANTS.S_BACKUP_FETCH_LIMIT, m_data])
+        m_backup_model = mongo_controller.get_instance().invoke_trigger(mongo_crud.S_READ, [MONGODB_COMMANDS.S_GET_UNPARSED_URL, CRAWL_SETTINGS_CONSTANTS.S_BACKUP_FETCH_LIMIT, m_data])
 
         m_document_list = []
         m_document_list_id = []
@@ -85,10 +85,10 @@ class crawl_model(request_handler):
             m_document_list.append(m_document)
             m_document_list_id.append(m_document["_id"])
 
-        mongo_controller.get_instance().invoke_trigger(MONGODB_CRUD_COMMANDS.S_UPDATE, [MONGODB_COMMANDS.S_SET_BACKUP_URL, False, m_document_list_id])
+        mongo_controller.get_instance().invoke_trigger(mongo_crud.S_UPDATE, [MONGODB_COMMANDS.S_SET_BACKUP_URL, False, m_document_list_id])
         if len(m_document_list) > 0:
             for data_item in m_document_list:
-                p_url = data_item[classifier_constants.S_MONGO_HOST]
+                p_url = data_item[CLASSIFIER_CONSTANT.S_MONGO_HOST]
                 p_type = data_item['m_catagory'].lower()
                 m_url_host = helper_method.get_host_url(p_url)
                 m_keys = self.__m_url_queue.keys()

@@ -35,7 +35,7 @@ class CRAWL_SETTINGS_CONSTANTS:
     S_BACKUP_FETCH_LIMIT = 50
 
     # mongo_manager Database
-    S_DATABASE_NAME = 'web_classifier'
+    S_DATABASE_NAME = 'services_classifier'
     S_DATABASE_PORT = 27017
     S_DATABASE_IP = 'localhost'
 

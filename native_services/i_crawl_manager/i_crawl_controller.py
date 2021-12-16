@@ -7,7 +7,7 @@ from native_services.helper_method.helper_method import helper_method
 from native_services.i_crawl_manager.i_crawl_enums import ICRAWL_CONTROLLER_COMMANDS
 from native_services.log_manager.log_manager import log
 from native_services.request_manager.request_handler import request_handler
-from crawler_services.native_services.mongo_manager.mongo_enums import MONGODB_COMMANDS, MONGODB_CRUD_COMMANDS
+from crawler_services.native_services.mongo_manager.mongo_enums import MONGODB_COMMANDS, mongo_crud
 from crawler_services.helper_services.duplication_handler import duplication_handler
 from native_services.i_crawl_manager.parse_manager import parse_manager
 from native_services.shared_models.index_model import index_model
@@ -47,7 +47,7 @@ class i_crawl_controller(request_handler):
                 self.__m_duplication_handler.insert_url(m_redirected_url)
 
                 if m_parsed_model.m_validity_score == 1:
-                    mongo_controller.get_instance().invoke_trigger(MONGODB_CRUD_COMMANDS.S_UPDATE,[MONGODB_COMMANDS.S_SAVE_PARSE_URL,True,m_parsed_model])
+                    mongo_controller.get_instance().invoke_trigger(mongo_crud.S_UPDATE, [MONGODB_COMMANDS.S_SAVE_PARSE_URL, True, m_parsed_model])
                     log.g().s(MESSAGE_STRINGS.S_URL_PARSED + " : " + m_parsed_model.m_url)
         else:
             m_parsed_model = index_model(p_url=p_request_model.m_url)
