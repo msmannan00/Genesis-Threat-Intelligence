@@ -25,6 +25,6 @@ class web_request_manager:
                 return page.url, True, m_html
 
         except Exception as e:
-            log.g().e(MESSAGE_STRINGS.S_URL_PROCESSING_ERROR + " : " + p_url + " : " + str(e))
+            log.g().e("E6 : " + MESSAGE_STRINGS.S_URL_PROCESSING_ERROR + " : " + p_url + " : " + str(e))
             return p_url, False, None
 

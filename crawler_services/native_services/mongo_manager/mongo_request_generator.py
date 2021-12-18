@@ -53,5 +53,3 @@ class mongo_request_generator(request_handler):
             return self.__on_get_unparsed_url()
         elif p_commands == MONGODB_COMMANDS.S_SET_BACKUP_URL:
             return self.__on_get_backup_url(p_data)
-
-
