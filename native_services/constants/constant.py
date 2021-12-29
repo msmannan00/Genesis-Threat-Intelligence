@@ -1,6 +1,8 @@
+from pathlib import Path
+
 
 class RAW_PATH_CONSTANTS:
-    S_PROJECT_PATH = "C:\\Workspace\\Genesis-Threat-Intelligence"
+    S_PROJECT_PATH = str(Path(__file__).parent.parent.parent)
     S_DATASET_PATH = "\\crawler_services\\raw\\crawled_classifier_websites.csv"
     S_DICTIONARY_PATH = S_PROJECT_PATH + "\\native_services\\raw\\dictionary"
     S_DICTIONARY_MINI_PATH = S_PROJECT_PATH + "\\native_services\\raw\\dictionary_small"
@@ -33,11 +35,6 @@ class CRAWL_SETTINGS_CONSTANTS:
     # Backup Time
     S_BACKUP_TIME_DELAY = 86400
     S_BACKUP_FETCH_LIMIT = 50
-
-    # mongo_manager Database
-    S_DATABASE_NAME = 'services_classifier'
-    S_DATABASE_PORT = 27017
-    S_DATABASE_IP = 'localhost'
 
     # Min Image Content Size
     S_MIN_CONTENT_LENGTH = 50000

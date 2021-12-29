@@ -32,15 +32,17 @@ class mongo_request_generator(request_handler):
     def __on_get_unparsed_url(self):
         return {MONGODB_KEYS.S_DOCUMENT: MONGODB_COLLECTIONS.S_BACKUP_MODEL, MONGODB_KEYS.S_FILTER: {"m_parsing": {"$eq": False}}}
 
-    def __on_get_backup_url(self, p_data):
-        m_document_list_id = p_data[1]
+    def __on_get_backup_url(self, p_doc_id):
+        m_document_list_id = p_doc_id
         return {MONGODB_KEYS.S_DOCUMENT: MONGODB_COLLECTIONS.S_BACKUP_MODEL, MONGODB_KEYS.S_FILTER:{"_id": {"$in": m_document_list_id}}, MONGODB_KEYS.S_VALUE:{"$set":{"m_parsing":True}}}
 
     def invoke_trigger(self, p_commands, p_data=None):
+        if p_commands == MONGODB_COMMANDS.S_GET_PARSE_URL:
+            return self.__on_get_parsed_url()
         if p_commands == MONGODB_COMMANDS.S_RESET_BACKUP_URL:
             return self.__on_reset_backup_url()
         if p_commands == MONGODB_COMMANDS.S_SAVE_PARSE_URL:
-            return self.__on_set_parse_url(p_data[1])
+            return self.__on_set_parse_url(p_data[0])
         if p_commands == MONGODB_COMMANDS.S_SAVE_BACKUP:
             return self.__on_set_backup_url(p_data[0])
         if p_commands == MONGODB_COMMANDS.S_CLEAR_INDEX:
@@ -52,4 +54,4 @@ class mongo_request_generator(request_handler):
         elif p_commands == MONGODB_COMMANDS.S_GET_UNPARSED_URL:
             return self.__on_get_unparsed_url()
         elif p_commands == MONGODB_COMMANDS.S_SET_BACKUP_URL:
-            return self.__on_get_backup_url(p_data)
+            return self.__on_get_backup_url(p_data[0])

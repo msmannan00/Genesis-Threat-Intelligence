@@ -5,8 +5,8 @@ import pandas as pd
 from native_services.constants.constant import CRAWL_SETTINGS_CONSTANTS, RAW_PATH_CONSTANTS
 from native_services.crawl_manager.crawl_enums import CRAWLER_STATUS, CRAWL_MODEL_COMMANDS, CRAWL_CONTROLLER_COMMANDS, CLASSIFIER
 from native_services.i_crawl_manager.i_crawl_enums import ICRAWL_CONTROLLER_COMMANDS
-from native_services.log_manager.log_enums import INFO_MESSAGES
-from native_services.log_manager.log_manager import log
+from crawler_services.native_services.log_manager.log_enums import INFO_MESSAGES
+from crawler_services.native_services.log_manager.log_manager import log
 from native_services.request_manager.request_handler import request_handler
 from native_services.crawl_manager.crawl_model import crawl_model
 from native_services.i_crawl_manager.i_crawl_controller import i_crawl_controller

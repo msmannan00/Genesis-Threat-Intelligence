@@ -1,13 +1,7 @@
 # Libraries
-import sys
-
-# sys.path.append('C://Workspace//Genesis-Threat-Intelligence//crawler_instance')
-# print(sys.path)
-
-
 from native_services.application_manager.application_enums import APPICATION_COMMANDS
 from native_services.crawl_manager.crawl_enums import CRAWL_CONTROLLER_COMMANDS
-from native_services.log_manager.log_enums import ERROR_MESSAGES
+from crawler_services.native_services.log_manager.log_enums import ERROR_MESSAGES
 from crawler_services.native_services.topic_classifier_manager.topic_classifier_enums import TOPIC_CLASSFIER_COMMANDS
 from native_services.request_manager.request_handler import request_handler
 from crawler_services.native_services.topic_classifier_manager.topic_classifier import topic_classifier

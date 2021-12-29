@@ -17,7 +17,7 @@ from sklearn.metrics import accuracy_score, f1_score, precision_score, recall_sc
 
 from crawler_services.constants.constant import SHARED_CONSTANT, CLASSIFIER_PATH_CONSTANT
 from crawler_services.constants.strings import GENERIC_STRINGS
-from crawler_services.native_services.mongo_manager.mongo_enums import MONGODB_COMMANDS
+from crawler_services.native_services.mongo_manager.mongo_enums import MONGODB_COMMANDS, MONGO_CRUD
 from crawler_services.native_services.topic_classifier_manager.topic_classifier_enums import TOPIC_CLASSFIER_TRAINER
 from crawler_services.helper_services.spell_checker_handler import spell_checker_handler
 from crawler_services.shared_model.request_handler import request_handler
@@ -45,7 +45,7 @@ class topic_classifier_trainer(request_handler):
         os.mkdir(SHARED_CONSTANT.S_PROJECT_PATH + CLASSIFIER_PATH_CONSTANT.S_CLASSIFIER_FOLDER_PATH)
 
     def __read_dataset(self):
-        m_result = mongo_controller.get_instance().invoke_trigger(MONGODB_COMMANDS.S_READ, [MONGODB_COMMANDS.S_GET_PARSE_URL])
+        m_result = mongo_controller.get_instance().invoke_trigger(MONGO_CRUD.S_READ, [MONGODB_COMMANDS.S_GET_PARSE_URL,[None],[None]])
 
         if Path(SHARED_CONSTANT.S_PROJECT_PATH + CLASSIFIER_PATH_CONSTANT.S_TRAINING_DATA_PATH).exists():
             os.remove(SHARED_CONSTANT.S_PROJECT_PATH + CLASSIFIER_PATH_CONSTANT.S_TRAINING_DATA_PATH)
@@ -151,14 +151,14 @@ class topic_classifier_trainer(request_handler):
 
         vectorizer_description_generic.fit(m_dataframe['keywords'] )
         X = vectorizer_description_generic.transform(m_dataframe['keywords'])
-        m_keyword = pd.DataFrame(X.toarray(), columns=vectorizer_description_generic.get_feature_names_out())
+        m_keyword = pd.DataFrame(X.toarray(), columns=vectorizer_description_generic.get_feature_names())
 
         X = vectorizer_description_generic.transform(m_dataframe['title'])
-        m_title = pd.DataFrame(X.toarray(), columns=vectorizer_description_generic.get_feature_names_out())
+        m_title = pd.DataFrame(X.toarray(), columns=vectorizer_description_generic.get_feature_names())
         m_title *= 3
 
         X = vectorizer_description_generic.transform(m_dataframe['description'])
-        m_description = pd.DataFrame(X.toarray(), columns=vectorizer_description_generic.get_feature_names_out())
+        m_description = pd.DataFrame(X.toarray(), columns=vectorizer_description_generic.get_feature_names())
         m_description *= 2
         pickle.dump(vectorizer_description_generic, open(SHARED_CONSTANT.S_PROJECT_PATH + CLASSIFIER_PATH_CONSTANT.S_VECTORIZER_PATH, "wb"))
 
@@ -171,7 +171,13 @@ class topic_classifier_trainer(request_handler):
         m_dataframe = self.clean_dataset(m_dataframe)
         X = m_dataframe
         Y = label
-        m_select = SelectKBest(chi2, k=3500)
+        m_feature_count = len(vectorizer_description_generic.get_feature_names())
+
+        if m_feature_count<4000:
+            m_select = SelectKBest(chi2, k=m_feature_count)
+        else:
+            m_select = SelectKBest(chi2, k=4000)
+
         m_select.fit(X, Y)
         X = m_select.transform(X)
         pickle.dump(m_select, open(SHARED_CONSTANT.S_PROJECT_PATH + CLASSIFIER_PATH_CONSTANT.S_SELECTKBEST_PATH, 'wb'))

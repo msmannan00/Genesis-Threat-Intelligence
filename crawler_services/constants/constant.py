@@ -1,6 +1,8 @@
+from pathlib import Path
+
 
 class SHARED_CONSTANT:
-    S_PROJECT_PATH = "C:\\Workspace\\Genesis-Threat-Intelligence"
+    S_PROJECT_PATH = str(Path(__file__).parent.parent.parent)
 
 class CLASSIFIER_PATH_CONSTANT:
     S_CLASSIFIER_FOLDER_PATH = "\\crawler_services\\raw\\classifier_pickled_files"

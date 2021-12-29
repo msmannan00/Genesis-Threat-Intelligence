@@ -3,7 +3,6 @@ import re
 from abc import ABC
 from html.parser import HTMLParser
 from bs4 import BeautifulSoup
-from native_services.constants.constant import CRAWL_SETTINGS_CONSTANTS
 from native_services.constants.strings import GENERIC_STRINGS
 from native_services.i_crawl_manager.i_crawl_enums import PARSE_TAGS, PARSE_TAGS_STRINGS
 from crawler_services.helper_services.spell_checker_handler import spell_checker_handler
@@ -18,8 +17,6 @@ class html_parser(HTMLParser, ABC):
 
         self.m_title = GENERIC_STRINGS.S_EMPTY
         self.m_description = GENERIC_STRINGS.S_EMPTY
-        self.m_keywords = GENERIC_STRINGS.S_EMPTY
-        self.m_content_type = CRAWL_SETTINGS_CONSTANTS.S_THREAD_CATEGORY_GENERAL
 
         self.m_base_url = m_base_url
         self.m_html = m_html
@@ -51,9 +48,6 @@ class html_parser(HTMLParser, ABC):
                 if p_attrs[0][1] == PARSE_TAGS_STRINGS.S_META_DESCRIPTION.value:
                     if len(p_attrs) > 1 and len(p_attrs[1]) > 0 and p_attrs[1][0] == PARSE_TAGS_STRINGS.S_META_CONTENT.value and p_attrs[1][1] is not None:
                         self.m_description = p_attrs[1][1]
-                elif p_attrs[0][1] == PARSE_TAGS_STRINGS.S_META_KEYWORD.value:
-                    if len(p_attrs) > 1 and len(p_attrs[1]) > 0 and p_attrs[1][0] == PARSE_TAGS_STRINGS.S_META_CONTENT.value and p_attrs[1][1] is not None:
-                        self.m_keywords = p_attrs[1][1].replace(",", GENERIC_STRINGS.S_SPACE)
             except Exception:
                 pass
 
@@ -76,7 +70,7 @@ class html_parser(HTMLParser, ABC):
 
     def __get_html_text(self):
         m_soup = BeautifulSoup(self.m_html, "html.parser")
-        m_text = m_soup.get_text(separator=u' ')
+        m_text = m_soup.get_text()
 
         return m_text
 
@@ -120,28 +114,16 @@ class html_parser(HTMLParser, ABC):
         incorrect_word, correct_word = spell_checker_handler.get_instance().validation_handler(word_list)
 
         # Cleaning Incorrect Words
-        incorrect_word_cleaned = []
         for m_word in incorrect_word:
-            incorrect_word_filter, correct_word_filter = spell_checker_handler.get_instance().invalid_validation_handler(m_word)
-            if len(correct_word_filter) > 0 and len(correct_word_filter) + 1 >= len(incorrect_word_filter):
-                correct_word = correct_word + correct_word_filter
-            elif spell_checker_handler.get_instance().incorrect_word_validator(m_word) is True and len(incorrect_word_filter) <= 1:
-                incorrect_word_cleaned.append(m_word)
+            correct_word_filter = spell_checker_handler.get_instance().invalid_word_validation_handler(m_word)
+            correct_word = correct_word + correct_word_filter
 
-        # Remove Special Character
-        word_list = [re.sub('[^a-zA-Z0-9]+', '', _) for _ in incorrect_word_cleaned]
-        incorrect_word_cleaned = list(filter(None, word_list))
-
-        correct_word = list(set(correct_word))
-        return correct_word, incorrect_word_cleaned
+        return correct_word
 
     # extract website description from raw duplicationHandlerService
     def __get_description(self):
         clean_description = self.__strip_special_character(self.m_description)
         return clean_description
-
-    def __get_content_type(self):
-        return  self.m_content_type
 
     def __get_validity_score(self, p_title, p_description, p_keyword):
         if len(p_keyword)>10 and (len(p_title) + len(p_description) > 0) and p_title.lower().__contains__("domain") is False and p_description.lower().__contains__("buy domain") is False and self.m_total_url>10:
@@ -150,12 +132,11 @@ class html_parser(HTMLParser, ABC):
             return 0
 
     def get_parsed_html(self):
-        m_cleaned_text = self.__clean_html(self.__get_html_text())
-
         m_title = self.m_title
-
         m_description = self.__get_description()
-        correct_word, incorrect_word = self.__get_keyword(m_cleaned_text)
+
+        m_cleaned_text = self.__clean_html(self.__get_html_text())
+        correct_word = self.__get_keyword(m_cleaned_text)
         m_validity_score = self.__get_validity_score(m_title, m_description, correct_word)
 
-        return m_title, m_description, correct_word, incorrect_word, m_validity_score
+        return m_title, m_description, correct_word, m_validity_score

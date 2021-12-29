@@ -4,8 +4,9 @@ from native_services.constants.constant import CRAWL_SETTINGS_CONSTANTS
 from native_services.constants.strings import GENERIC_STRINGS
 from native_services.helper_method.helper_method import helper_method
 from native_services.i_crawl_manager.i_crawl_enums import RESPONSE_CODE
-from native_services.log_manager.log_manager import log
-from crawler_services.constants.strings import MESSAGE_STRINGS, GENERIC_STRINGS
+from crawler_services.native_services.log_manager.log_enums import ERROR_MESSAGES
+from crawler_services.native_services.log_manager.log_manager import log
+from crawler_services.constants.strings import GENERIC_STRINGS
 
 
 class web_request_manager:
@@ -25,6 +26,6 @@ class web_request_manager:
                 return page.url, True, m_html
 
         except Exception as e:
-            log.g().e("E6 : " + MESSAGE_STRINGS.S_URL_PROCESSING_ERROR + " : " + p_url + " : " + str(e))
+            log.g().e("WEB REQUEST E1 : " + ERROR_MESSAGES.S_URL_PROCESSING_ERROR + " : " + p_url + " : " + str(e))
             return p_url, False, None
 

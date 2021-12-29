@@ -6,6 +6,11 @@ class MONGO_CRUD(enum.Enum):
     S_UPDATE = '3'
     S_DELETE = '4'
 
+class MONGO_CONNECTIONS:
+    S_DATABASE_NAME = 'topic-classifier'
+    S_DATABASE_PORT = 27017
+    S_DATABASE_IP = 'localhost'
+
 class MONGODB_COMMANDS(enum.Enum):
     S_CLEAR_DATA = '-1'
     S_CLEAR_DATA_INVOKE = '0'

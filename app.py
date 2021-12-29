@@ -3,9 +3,9 @@ from native_services.application_manager.application_enums import APPICATION_COM
 from crawler_services.native_services.mongo_manager.mongo_controller import mongo_controller
 from crawler_services.native_services.mongo_manager.mongo_enums import MONGODB_COMMANDS, MONGO_CRUD
 
-# mongo_controller.get_instance().invoke_trigger(MONGODB_CRUD_COMMANDS.S_DELETE,[MONGODB_COMMANDS.S_CLEAR_INDEX])
-# mongo_controller.get_instance().invoke_trigger(MONGODB_CRUD_COMMANDS.S_DELETE,[MONGODB_COMMANDS.S_CLEAR_BACKUP])
-# mongo_controller.get_instance().invoke_trigger(MONGODB_CRUD_COMMANDS.S_DELETE,[MONGODB_COMMANDS.S_CLEAR_TFIDF])
+# mongo_controller.get_instance().invoke_trigger(MONGO_CRUD.S_DELETE, [MONGODB_COMMANDS.S_CLEAR_INDEX,[None],[None]])
+# mongo_controller.get_instance().invoke_trigger(MONGO_CRUD.S_DELETE, [MONGODB_COMMANDS.S_CLEAR_BACKUP,[None],[None]])
+# mongo_controller.get_instance().invoke_trigger(MONGO_CRUD.S_DELETE, [MONGODB_COMMANDS.S_CLEAR_TFIDF,[None],[None]])
 
-mongo_controller.get_instance().invoke_trigger(MONGO_CRUD.S_UPDATE, [MONGODB_COMMANDS.S_RESET_BACKUP_URL, False])
-application_controller.get_instance().invoke_trigger(APPICATION_COMMANDS.S_LOAD_TOPIC_CLASSIFIER_DATASET)
+mongo_controller.get_instance().invoke_trigger(MONGO_CRUD.S_UPDATE,[MONGODB_COMMANDS.S_RESET_BACKUP_URL,None,[False]])
+application_controller.get_instance().invoke_trigger(APPICATION_COMMANDS.S_INSTALL_TOPIC_CLASSIFIER)
