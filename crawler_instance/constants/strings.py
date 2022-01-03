@@ -1,3 +1,8 @@
+
+class GENERIC_STRINGS:
+    S_EMPTY = ""
+    S_SPACE = " "
+
 class INFO_MESSAGES:
     S_LOADING_BACKUP_URL = "[1] Loading Backup URL"
     S_BACKUP_QUEUE_EMPTY = "[2] Backup Queue Empty"

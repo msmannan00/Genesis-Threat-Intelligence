@@ -1,17 +1,17 @@
 # Local Imports
 import time
 
-from native_services.crawl_manager.crawl_enums import CRAWLER_STATUS
-from native_services.helper_method.helper_method import helper_method
-from native_services.i_crawl_manager.i_crawl_enums import ICRAWL_CONTROLLER_COMMANDS
-from crawler_services.native_services.log_manager.log_enums import ERROR_MESSAGES
-from crawler_services.native_services.log_manager.log_manager import log
-from native_services.request_manager.request_handler import request_handler
+from crawler_instance.constants.strings import ERROR_MESSAGES
+from crawler_instance.crawl_manager.crawl_enums import CRAWLER_STATUS
+from crawler_instance.helper_method.helper_method import helper_method
+from crawler_instance.i_crawl_manager.i_crawl_enums import ICRAWL_CONTROLLER_COMMANDS
+from crawler_shared_directory.shared_services.log_manager.log_manager import log
+from crawler_shared_directory.request_model.request_handler import request_handler
 from crawler_services.native_services.mongo_manager.mongo_enums import MONGODB_COMMANDS, MONGO_CRUD
 from crawler_services.helper_services.duplication_handler import duplication_handler
-from native_services.i_crawl_manager.parse_manager import parse_manager
-from services_shared_models.index_model import index_model
-from native_services.i_crawl_manager.web_request_manager import web_request_manager
+from crawler_instance.i_crawl_manager.parse_manager import parse_manager
+from crawler_shared_directory.shared_models.index_model import index_model
+from crawler_instance.i_crawl_manager.web_request_manager import web_request_manager
 from crawler_services.native_services.mongo_manager.mongo_controller import mongo_controller
 
 

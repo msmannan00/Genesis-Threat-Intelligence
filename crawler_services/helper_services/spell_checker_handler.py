@@ -1,8 +1,8 @@
 # Local Imports
 import re
 
-from native_services.helper_method.helper_method import helper_method
-from crawler_services.native_services.log_manager.log_enums import ERROR_MESSAGES
+from crawler_instance.constants.strings import ERROR_MESSAGES
+from crawler_instance.helper_method.helper_method import helper_method
 from crawler_services.constants.constant import CLASSIFIER_PATH_CONSTANT
 
 class spell_checker_handler:

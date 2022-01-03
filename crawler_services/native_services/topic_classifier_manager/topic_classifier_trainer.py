@@ -20,8 +20,8 @@ from crawler_services.constants.strings import GENERIC_STRINGS
 from crawler_services.native_services.mongo_manager.mongo_enums import MONGODB_COMMANDS, MONGO_CRUD
 from crawler_services.native_services.topic_classifier_manager.topic_classifier_enums import TOPIC_CLASSFIER_TRAINER
 from crawler_services.helper_services.spell_checker_handler import spell_checker_handler
-from crawler_services.shared_model.request_handler import request_handler
 from crawler_services.native_services.mongo_manager.mongo_controller import mongo_controller
+from crawler_shared_directory.request_model.request_handler import request_handler
 
 
 class topic_classifier_trainer(request_handler):

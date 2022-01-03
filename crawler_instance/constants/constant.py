@@ -4,8 +4,8 @@ from pathlib import Path
 class RAW_PATH_CONSTANTS:
     S_PROJECT_PATH = str(Path(__file__).parent.parent.parent)
     S_DATASET_PATH = "\\crawler_services\\raw\\crawled_classifier_websites.csv"
-    S_DICTIONARY_PATH = S_PROJECT_PATH + "\\native_services\\raw\\dictionary"
-    S_DICTIONARY_MINI_PATH = S_PROJECT_PATH + "\\native_services\\raw\\dictionary_small"
+    S_DICTIONARY_PATH = S_PROJECT_PATH + "\\crawler_instance\\raw\\dictionary"
+    S_DICTIONARY_MINI_PATH = S_PROJECT_PATH + "\\crawler_instance\\raw\\dictionary_small"
 
 class CRAWL_SETTINGS_CONSTANTS:
     # Total Thread Instances Allowed

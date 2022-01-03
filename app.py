@@ -1,5 +1,5 @@
-from native_services.application_manager.application_controller import application_controller
-from native_services.application_manager.application_enums import APPICATION_COMMANDS
+from crawler_instance.application_manager.application_controller import application_controller
+from crawler_instance.application_manager.application_enums import APPICATION_COMMANDS
 from crawler_services.native_services.mongo_manager.mongo_controller import mongo_controller
 from crawler_services.native_services.mongo_manager.mongo_enums import MONGODB_COMMANDS, MONGO_CRUD
 

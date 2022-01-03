@@ -1,10 +1,11 @@
 # Local Imports
 import pymongo
 
-from crawler_services.native_services.mongo_manager.mongo_enums import MONGODB_KEYS, MANAGE_USER_MESSAGES, MONGO_CRUD, MONGO_CONNECTIONS
+from crawler_services.constants.strings import MONGO_MESSAGES
+from crawler_services.native_services.mongo_manager.mongo_enums import MONGODB_KEYS, MONGO_CRUD, MONGO_CONNECTIONS
 from crawler_services.native_services.mongo_manager.mongo_request_generator import mongo_request_generator
-from crawler_services.shared_model.request_handler import request_handler
-from crawler_services.native_services.log_manager.log_manager import log
+from crawler_shared_directory.request_model.request_handler import request_handler
+from crawler_shared_directory.shared_services.log_manager.log_manager import log
 
 
 class mongo_controller(request_handler):
@@ -30,9 +31,9 @@ class mongo_controller(request_handler):
     def __create(self, p_data):
         try:
             self.__m_connection[p_data[MONGODB_KEYS.S_DOCUMENT]].insert(p_data[MONGODB_KEYS.S_VALUE])
-            return True, MANAGE_USER_MESSAGES.S_INSERT_SUCCESS
+            return True, MONGO_MESSAGES.S_INSERT_SUCCESS
         except Exception as ex:
-            log.g().e("Mongo E1 : " + MANAGE_USER_MESSAGES.S_INSERT_FAILURE + " : " + str(ex))
+            log.g().e("Mongo E1 : " + MONGO_MESSAGES.S_INSERT_FAILURE + " : " + str(ex))
             return False, str(ex)
 
     def __read(self, p_data, p_limit):
@@ -43,24 +44,24 @@ class mongo_controller(request_handler):
                 documents = self.__m_connection[p_data[MONGODB_KEYS.S_DOCUMENT]].find(p_data[MONGODB_KEYS.S_FILTER])
             return documents
         except Exception as ex:
-            log.g().e("Mongo E2 : " + MANAGE_USER_MESSAGES.S_READ_FAILURE + " : " + str(ex))
+            log.g().e("Mongo E2 : " + MONGO_MESSAGES.S_READ_FAILURE + " : " + str(ex))
             return str(ex)
 
     def __update(self, p_data, p_upsert):
         try:
             self.__m_connection[p_data[MONGODB_KEYS.S_DOCUMENT]].update_many(p_data[MONGODB_KEYS.S_FILTER],p_data[MONGODB_KEYS.S_VALUE], upsert=p_upsert)
-            return True, MANAGE_USER_MESSAGES.S_UPDATE_SUCCESS
+            return True, MONGO_MESSAGES.S_UPDATE_SUCCESS
 
         except Exception as ex:
-            log.g().e("Mongo E3 : " + MANAGE_USER_MESSAGES.S_UPDATE_FAILURE + " : " + str(ex))
+            log.g().e("Mongo E3 : " + MONGO_MESSAGES.S_UPDATE_FAILURE + " : " + str(ex))
             return False, str(ex)
 
     def __delete(self, p_data):
         try:
             documents = self.__m_connection[p_data[MONGODB_KEYS.S_DOCUMENT]].remove(p_data[MONGODB_KEYS.S_FILTER])
-            return documents, MANAGE_USER_MESSAGES.S_DELETE_SUCCESS
+            return documents, MONGO_MESSAGES.S_DELETE_SUCCESS
         except Exception as ex:
-            log.g().e("Mongo E4 : " + MANAGE_USER_MESSAGES.S_DELETE_FAILURE + " : " + str(ex))
+            log.g().e("Mongo E4 : " + MONGO_MESSAGES.S_DELETE_FAILURE + " : " + str(ex))
             return False, str(ex)
 
     def invoke_trigger(self, p_commands, p_data=None):

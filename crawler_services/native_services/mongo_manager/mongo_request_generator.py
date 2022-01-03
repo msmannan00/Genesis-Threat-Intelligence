@@ -1,6 +1,5 @@
-from crawler_services.native_services.mongo_manager.mongo_enums import MONGODB_COLLECTIONS, MONGODB_KEYS, \
-    MONGODB_COMMANDS
-from crawler_services.shared_model.request_handler import request_handler
+from crawler_services.native_services.mongo_manager.mongo_enums import MONGODB_COLLECTIONS, MONGODB_KEYS, MONGODB_COMMANDS
+from crawler_shared_directory.request_model.request_handler import request_handler
 
 
 class mongo_request_generator(request_handler):

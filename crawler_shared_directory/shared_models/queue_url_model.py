@@ -1,6 +1,6 @@
 # Non Parsed URL Model
 # Model representing information of url to be put in backup queue
-from native_services.constants.strings import GENERIC_STRINGS
+from crawler_instance.constants.strings import GENERIC_STRINGS
 
 class queue_url_model:
 

@@ -1,6 +1,6 @@
 # Local Imports
-from services_shared_models.index_model import index_model
-from native_services.i_crawl_manager.html_parser import html_parser
+from crawler_shared_directory.shared_models.index_model import index_model
+from crawler_instance.i_crawl_manager.html_parser import html_parser
 
 
 class parse_manager:
@@ -9,8 +9,7 @@ class parse_manager:
     def on_parse_html(self, p_html, p_base_url, p_content_type):
         m_title, m_description, m_correct_keyword, m_validity_score = self.__on_html_parser_invoke(p_base_url, p_html)
 
-        return index_model(p_title=m_title,p_content_type = p_content_type ,p_description=m_description, p_url = p_base_url,
-                           p_validity_score=m_validity_score, p_keyword=m_correct_keyword)
+        return index_model(p_title=m_title,p_content_type = p_content_type ,p_description=m_description, p_url = p_base_url, p_validity_score=m_validity_score, p_keyword=m_correct_keyword)
 
     def __on_html_parser_invoke(self, p_base_url, p_html):
 

@@ -4,7 +4,7 @@ import pandas as pd
 
 from crawler_services.constants.constant import SHARED_CONSTANT, CLASSIFIER_PATH_CONSTANT
 from crawler_services.native_services.topic_classifier_manager.topic_classifier_enums import TOPIC_CLASSFIER_MODEL
-from crawler_services.shared_model.request_handler import request_handler
+from crawler_shared_directory.request_model.request_handler import request_handler
 
 
 class topic_classifier_model(request_handler):

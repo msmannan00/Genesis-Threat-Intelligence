@@ -1,6 +1,6 @@
 # Local Imports
-from native_services.constants.constant import CRAWL_SETTINGS_CONSTANTS
-from native_services.constants.strings import GENERIC_STRINGS
+from crawler_instance.constants.constant import CRAWL_SETTINGS_CONSTANTS
+from crawler_instance.constants.strings import GENERIC_STRINGS
 
 
 class backup_model:

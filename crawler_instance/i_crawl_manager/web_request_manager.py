@@ -1,11 +1,10 @@
 import eventlet
 
-from native_services.constants.constant import CRAWL_SETTINGS_CONSTANTS
-from native_services.constants.strings import GENERIC_STRINGS
-from native_services.helper_method.helper_method import helper_method
-from native_services.i_crawl_manager.i_crawl_enums import RESPONSE_CODE
-from crawler_services.native_services.log_manager.log_enums import ERROR_MESSAGES
-from crawler_services.native_services.log_manager.log_manager import log
+from crawler_instance.constants.constant import CRAWL_SETTINGS_CONSTANTS
+from crawler_instance.constants.strings import GENERIC_STRINGS, ERROR_MESSAGES
+from crawler_instance.helper_method.helper_method import helper_method
+from crawler_instance.i_crawl_manager.i_crawl_enums import RESPONSE_CODE
+from crawler_shared_directory.shared_services.log_manager.log_manager import log
 from crawler_services.constants.strings import GENERIC_STRINGS
 
 

@@ -1,9 +1,8 @@
 # Local Imports
-from crawler_services.native_services.topic_classifier_manager.topic_classifier_enums import TOPIC_CLASSFIER_MODEL, \
-    TOPIC_CLASSFIER_TRAINER, TOPIC_CLASSFIER_COMMANDS
-from crawler_services.shared_model.request_handler import request_handler
+from crawler_services.native_services.topic_classifier_manager.topic_classifier_enums import TOPIC_CLASSFIER_MODEL, TOPIC_CLASSFIER_TRAINER, TOPIC_CLASSFIER_COMMANDS
 from crawler_services.native_services.topic_classifier_manager.topic_classifier_model import topic_classifier_model
 from crawler_services.native_services.topic_classifier_manager.topic_classifier_trainer import topic_classifier_trainer
+from crawler_shared_directory.request_model.request_handler import request_handler
 
 
 class topic_classifier(request_handler):

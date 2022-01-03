@@ -1,17 +1,16 @@
 # Local Libraries
-from crawler_services.native_services.log_manager.log_enums import ERROR_MESSAGES, INFO_MESSAGES
-from services_shared_models.backup_model import backup_model
-from native_services.constants.application_status import CRAWL_STATUS
-from native_services.constants.constant import CRAWL_SETTINGS_CONSTANTS
-from native_services.constants.keys import CLASSIFIER_CONSTANT
-from native_services.constants.strings import GENERIC_STRINGS
-from native_services.crawl_manager.crawl_enums import CRAWL_MODEL_COMMANDS
-from native_services.helper_method.helper_method import helper_method
-from native_services.request_manager.request_handler import request_handler
+from crawler_shared_directory.shared_models.backup_model import backup_model
+from crawler_instance.constants.application_status import CRAWL_STATUS
+from crawler_instance.constants.constant import CRAWL_SETTINGS_CONSTANTS
+from crawler_instance.constants.keys import CLASSIFIER_CONSTANT
+from crawler_instance.constants.strings import GENERIC_STRINGS, INFO_MESSAGES, ERROR_MESSAGES
+from crawler_instance.crawl_manager.crawl_enums import CRAWL_MODEL_COMMANDS
+from crawler_instance.helper_method.helper_method import helper_method
+from crawler_shared_directory.request_model.request_handler import request_handler
 from crawler_services.native_services.mongo_manager.mongo_enums import MONGODB_COMMANDS, MONGO_CRUD
 from crawler_services.helper_services.duplication_handler import duplication_handler
-from services_shared_models.queue_url_model import queue_url_model
-from crawler_services.native_services.log_manager.log_manager import log
+from crawler_shared_directory.shared_models.queue_url_model import queue_url_model
+from crawler_shared_directory.shared_services.log_manager.log_manager import log
 from crawler_services.native_services.mongo_manager.mongo_controller import mongo_controller
 
 

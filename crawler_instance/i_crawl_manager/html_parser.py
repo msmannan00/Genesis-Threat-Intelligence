@@ -3,8 +3,8 @@ import re
 from abc import ABC
 from html.parser import HTMLParser
 from bs4 import BeautifulSoup
-from native_services.constants.strings import GENERIC_STRINGS
-from native_services.i_crawl_manager.i_crawl_enums import PARSE_TAGS, PARSE_TAGS_STRINGS
+from crawler_instance.constants.strings import GENERIC_STRINGS
+from crawler_instance.i_crawl_manager.i_crawl_enums import PARSE_TAGS, PARSE_TAGS_STRINGS
 from crawler_services.helper_services.spell_checker_handler import spell_checker_handler
 from gensim.parsing.preprocessing import remove_stopwords
 
