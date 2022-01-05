@@ -1,3 +1,5 @@
+import datetime
+
 from termcolor import colored
 
 
@@ -17,16 +19,16 @@ class log:
 
     # Info Logs
     def i(self, p_log):
-        print(colored(p_log, 'cyan'))
+        print(colored(str(datetime.datetime.now().strftime("%d/%m/%Y %H:%M:%S")) + " : " + p_log, 'cyan'))
 
-    # Info Logs
+    # Success Logs
     def s(self, p_log):
-        print(colored(p_log, 'green'))
+        print(colored(str(datetime.datetime.now().strftime("%d/%m/%Y %H:%M:%S")) + " : " + p_log, 'green'))
 
+    # Warning Logs
     def w(self, p_log):
-        print(colored(p_log, 'yellow'))
+        print(colored(str(datetime.datetime.now().strftime("%d/%m/%Y %H:%M:%S")) + " : " + p_log, 'yellow'))
 
     # Error Logs
     def e(self, p_log):
-        print(colored(p_log, 'red'))
-
+        print(colored(str(datetime.datetime.now().strftime("%d/%m/%Y %H:%M:%S")) + " : " + p_log, 'red'))
