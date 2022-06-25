@@ -1,4 +1,0 @@
-
-class CRAWL_STATUS:
-    S_QUEUE_BACKUP_STATUS = True
-
